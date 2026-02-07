@@ -1,6 +1,5 @@
 package pw_backend_api.application;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -10,35 +9,58 @@ import pw_backend_api.application.representation.CursoRepresentation;
 import pw_backend_api.domain.Curso;
 import pw_backend_api.infraestructure.CursoRepository;
 
-
 @ApplicationScoped
 public class CursoService {
     @Inject
     CursoRepository cursoRepository;
 
+    public CursoRepresentation mapperToRep(Curso curso) {
+        CursoRepresentation curs = new CursoRepresentation();
+        curs.id = curso.id;
+        curs.codigoCurso = curso.codigoCurso;
+        curs.nombre = curso.nombre;
+        curs.descripcion = curso.descripcion;
+        curs.creditos = curso.creditos;
+        curs.cupos = curso.cupos;
+        return curs;
+    }
+
+    public Curso mapperToCur(CursoRepresentation cursoR) {
+        Curso curs = new Curso();
+        curs.id = cursoR.id;
+        curs.codigoCurso = cursoR.codigoCurso;
+        curs.nombre = cursoR.nombre;
+        curs.descripcion = cursoR.descripcion;
+        curs.creditos = cursoR.creditos;
+        curs.cupos = cursoR.cupos;
+        return curs;
+    }
+
+    public List<CursoRepresentation> listarTodos() {
+        return cursoRepository.findAll().list().stream().map(this::mapperToRep).toList();
+    }
+
+    public CursoRepresentation buscarPorId(Integer id) {
+        Curso curso = this.cursoRepository.findById(id.longValue());
+        return this.mapperToRep(curso);
+    }
+
     @Transactional
-    public void crearcurso(CursoRepresentation curso) {
-        this.cursoRepository.persist(this.mapperToCur(curso));
+    public CursoRepresentation crearCurso(CursoRepresentation cr) {
+        Curso curso2 = mapperToCur(cr);
+
+        cursoRepository.persist(curso2);
+
+        return mapperToRep(curso2);
     }
 
-    public List<CursoRepresentation> listarTodos(){
-        List<CursoRepresentation> rep = new ArrayList<>();
-        for(Curso cur: this.cursoRepository.listAll()){
-            rep.add(this.mapperToRep(cur));
-        }
-        return rep;
-    }
-
-    public CursoRepresentation buscarPorId(Integer id ){
-        return this.mapperToRep(this.cursoRepository.findById(id.longValue()));
-    }
-
-    public CursoRepresentation actualizarCurso(Integer id, CursoRepresentation cursoR){
-        Curso curs= this.cursoRepository.findById(id.longValue());
-        if(curs == null){
+    @Transactional
+    public CursoRepresentation actualizarCurso(Integer id, CursoRepresentation cursoR) {
+        Curso curs = this.cursoRepository.findById(id.longValue());
+        if (curs == null) {
             return null;
         }
-        curs.CodigoCurso = cursoR.CodigoCurso;
+        curs.codigoCurso = cursoR.codigoCurso;
         curs.nombre = cursoR.nombre;
         curs.descripcion = cursoR.descripcion;
         curs.creditos = cursoR.creditos;
@@ -47,30 +69,8 @@ public class CursoService {
     }
 
     @Transactional
-    public void eliminarCurso(Integer id){
+    public void eliminarCurso(Integer id) {
         this.cursoRepository.deleteById(id.longValue());
-    }
-
-    private CursoRepresentation mapperToRep(Curso curso) {
-        CursoRepresentation curs = new CursoRepresentation();
-        curs.id = curso.id;
-        curs.CodigoCurso = curso.CodigoCurso;
-        curs.nombre = curso.nombre;
-        curs.descripcion = curso.descripcion;
-        curs.creditos = curso.creditos;
-        curs.cupos = curso.cupos;
-        return curs;
-    }
-
-    private Curso mapperToCur(CursoRepresentation cursoR) {
-        Curso curs = new Curso();
-        curs.id = cursoR.id;
-        curs.CodigoCurso = cursoR.CodigoCurso;
-        curs.nombre = cursoR.nombre;
-        curs.descripcion = cursoR.descripcion;
-        curs.creditos = cursoR.creditos;
-        curs.cupos = cursoR.cupos;
-        return curs;
     }
 
 }

@@ -1,7 +1,5 @@
 package pw_backend_api.interfaces;
 
-import java.util.List;
-
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -17,47 +15,47 @@ import pw_backend_api.application.CursoService;
 import pw_backend_api.application.representation.CursoRepresentation;
 
 @Path("/cursos")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class CursoResource {
+
     @Inject
     CursoService cursoService;
 
-    @POST
-    @Path("")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response guardarCurso(CursoRepresentation cursoRe){
-           this.cursoService.crearcurso(cursoRe);
-        return Response.status(201).entity(cursoRe).build();
-    }
-
     @GET
     @Path("")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<CursoRepresentation> mostrarCursos(){
-        List<CursoRepresentation> listCursos = this.cursoService.listarTodos();
-        return listCursos;
+    public Response mostrarCursos() {
+        return Response.ok(cursoService.listarTodos()).build();
     }
 
     @GET
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public CursoRepresentation buscarPorId(@PathParam("id") Integer id){
-        return this.cursoService.buscarPorId(id);
+    public Response buscarPorId(@PathParam("id") Integer id) {
+        return Response.ok(cursoService.buscarPorId(id)).build();
+    }
+
+    @POST
+    @Path("")
+    public Response guardarCurso(CursoRepresentation cursoRe) {
+        CursoRepresentation creado = cursoService.crearCurso(cursoRe);
+
+        return Response.status(Response.Status.CREATED)
+                .entity(creado)
+                .build();
     }
 
     @PUT
-    @Path("")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public CursoRepresentation actualizarCurso(@PathParam("id") Integer id, CursoRepresentation cursoRe){
-        return this.cursoService.actualizarCurso(id, cursoRe);
+    @Path("/{id}")
+    public Response actualizarCurso(@PathParam("id") Integer id,
+            CursoRepresentation cursoRe) {
+
+        return Response.ok(cursoService.actualizarCurso(id, cursoRe)).build();
     }
 
     @DELETE
-    @Path("")
-    public void borrarCurso(@PathParam("id")Integer id){
-        this.cursoService.eliminarCurso(id);
+    @Path("/{id}")
+    public Response borrarCurso(@PathParam("id") Integer id) {
+        cursoService.eliminarCurso(id);
+        return Response.noContent().build();
     }
-
-
 }
