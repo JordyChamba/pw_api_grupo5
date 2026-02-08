@@ -7,7 +7,4 @@ public class MatriculaRepresentation {
     public Integer estudianteId;
     public Integer cursoId;
     public LocalDate fecha;
-    // Optional: Add names for easier reading in responses if used for output
-    public String nombreEstudiante;
-    public String nombreCurso;
 }

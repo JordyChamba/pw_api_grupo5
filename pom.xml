@@ -32,7 +32,11 @@
 
    <!-- ================= DEPENDENCIAS ================= -->
     <dependencies>
-
+         <!-- quarkus-smallrye-jwt -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-jwt</artifactId>
+         </dependency>
         <!-- REST Reactive -->
         <dependency>
             <groupId>io.quarkus</groupId>

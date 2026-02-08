@@ -1,5 +1,6 @@
 package pw_backend_api.interfaces;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -21,18 +22,22 @@ public class EstudianteResource {
     private EstudianteService estudianteService;
 
     @GET
+    @Path("")
+    @RolesAllowed("admin")
     public Response listarTodos() {
         return Response.ok(estudianteService.listarTodos()).build();
     }
 
     @GET
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response listarPorId(@PathParam("id") Integer id) {
         return Response.ok(estudianteService.listarPorId(id)).build();
     }
 
     @POST
     @Path("")
+    @RolesAllowed("admin")
     public Response insertarEstudiante(EstudianteRepresentation er) {
         return Response.status(Response.Status.CREATED)
                 .entity(estudianteService.insertarEstudiante(er))
@@ -41,6 +46,7 @@ public class EstudianteResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response eliminarEstudiante(@PathParam("id") Integer id) {
         estudianteService.eliminarEstudiante(id);
         return Response.noContent().build();

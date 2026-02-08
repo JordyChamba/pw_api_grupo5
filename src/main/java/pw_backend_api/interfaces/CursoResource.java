@@ -1,5 +1,6 @@
 package pw_backend_api.interfaces;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -24,18 +25,21 @@ public class CursoResource {
 
     @GET
     @Path("")
+    @RolesAllowed("admin")
     public Response mostrarCursos() {
         return Response.ok(cursoService.listarTodos()).build();
     }
 
     @GET
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response buscarPorId(@PathParam("id") Integer id) {
         return Response.ok(cursoService.buscarPorId(id)).build();
     }
 
     @POST
     @Path("")
+    @RolesAllowed("admin")
     public Response guardarCurso(CursoRepresentation cursoRe) {
         CursoRepresentation creado = cursoService.crearCurso(cursoRe);
 
@@ -46,6 +50,7 @@ public class CursoResource {
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response actualizarCurso(@PathParam("id") Integer id,
             CursoRepresentation cursoRe) {
 
@@ -54,6 +59,7 @@ public class CursoResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response borrarCurso(@PathParam("id") Integer id) {
         cursoService.eliminarCurso(id);
         return Response.noContent().build();

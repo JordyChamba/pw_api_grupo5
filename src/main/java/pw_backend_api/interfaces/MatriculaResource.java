@@ -1,5 +1,6 @@
 package pw_backend_api.interfaces;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -32,6 +33,7 @@ public class MatriculaResource {
     }
 
     @POST
+    @RolesAllowed("admin")
     @Transactional
     public Response matricular(MatriculaRepresentation dto) {
         if (dto.estudianteId == null || dto.cursoId == null) {
@@ -57,6 +59,7 @@ public class MatriculaResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("admin")
     @Transactional
     public Response cancelarMatricula(@PathParam("id") Integer id) {
         boolean deleted = Matricula.deleteById(id);
@@ -69,6 +72,7 @@ public class MatriculaResource {
 
     @GET
     @Path("/reporte")
+    @RolesAllowed("admin")
     public List<Matricula> reporte() {
         return Matricula.listAll();
     }
