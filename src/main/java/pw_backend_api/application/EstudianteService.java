@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
 import pw_backend_api.application.representation.EstudianteRepresentation;
+import pw_backend_api.application.representation.LinksDto;
 import pw_backend_api.domain.Estudiante;
 import pw_backend_api.infraestructure.EstudianteRepository;
 import pw_backend_api.infraestructure.MatriculaRepository;
@@ -31,8 +32,8 @@ public class EstudianteService {
         er.cedula = estudiante.cedula;
 
         er.links = new java.util.ArrayList<>();
-        er.links.add(new EstudianteRepresentation.Link("self", "http://localhost:8081/estudiantes/" + estudiante.id));
-        er.links.add(new EstudianteRepresentation.Link("parent", "http://localhost:8081/estudiantes"));
+        er.links.add(new LinksDto("self", "http://localhost:8081/estudiantes/" + estudiante.id));
+        er.links.add(new LinksDto("parent", "http://localhost:8081/estudiantes"));
 
         return er;
     }

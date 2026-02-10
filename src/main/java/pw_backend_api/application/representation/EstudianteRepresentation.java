@@ -12,20 +12,7 @@ public class EstudianteRepresentation {
     public String telefono;
     public Integer cedula;
 
-    public List<Link> links;
-
-    public static class Link {
-        public String rel;
-        public String href;
-
-        public Link(String rel, String href) {
-            this.rel = rel;
-            this.href = href;
-        }
-
-        public Link() {
-        }
-    }
+    public List<LinksDto> links;
 
     public Integer getId() {
         return id;
