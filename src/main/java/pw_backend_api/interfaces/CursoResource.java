@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -62,6 +63,14 @@ public class CursoResource {
             CursoRepresentation cursoRe) {
 
         return Response.ok(cursoService.actualizarCurso(id, cursoRe)).build();
+    }
+
+    @PATCH
+    @Path("/{id}")
+    @RolesAllowed("admin")
+    public Response parcheCurso(@PathParam("id") Integer id,
+            CursoRepresentation cursoRe) {
+        return Response.ok(cursoService.parcheCurso(id, cursoRe)).build();
     }
 
     @DELETE

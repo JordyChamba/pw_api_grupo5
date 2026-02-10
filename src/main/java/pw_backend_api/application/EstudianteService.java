@@ -65,6 +65,39 @@ public class EstudianteService {
     }
 
     @Transactional
+    public EstudianteRepresentation actualizarEstudiante(Integer id, EstudianteRepresentation er) {
+        Estudiante estudiante = this.estudianteRepository.findById(id.longValue());
+        estudiante.nombre = er.nombre;
+        estudiante.apellido = er.apellido;
+        estudiante.carrera = er.carrera;
+        estudiante.fechaNacimiento = er.fechaNacimiento;
+        estudiante.telefono = er.telefono;
+
+        estudianteRepository.persist(estudiante);
+
+        return mapperToER(estudiante);
+    }
+
+    @Transactional
+    public EstudianteRepresentation parche(Integer id, EstudianteRepresentation er) {
+        Estudiante estudiante = this.estudianteRepository.findById(id.longValue());
+        if (er.nombre != null)
+            estudiante.nombre = er.nombre;
+        if (er.apellido != null)
+            estudiante.apellido = er.apellido;
+        if (er.carrera != null)
+            estudiante.carrera = er.carrera;
+        if (er.fechaNacimiento != null)
+            estudiante.fechaNacimiento = er.fechaNacimiento;
+        if (er.telefono != null)
+            estudiante.telefono = er.telefono;
+
+        estudianteRepository.persist(estudiante);
+
+        return mapperToER(estudiante);
+    }
+
+    @Transactional
     public void eliminarEstudiante(Integer id) {
         if (matriculaRepository.count("estudiante.id", id) > 0) {
             throw new jakarta.ws.rs.WebApplicationException(

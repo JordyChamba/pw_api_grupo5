@@ -73,6 +73,25 @@ public class CursoService {
     }
 
     @Transactional
+    public CursoRepresentation parcheCurso(Integer id, CursoRepresentation cursoR) {
+        Curso curs = this.cursoRepository.findById(id.longValue());
+        if (curs == null) {
+            return null;
+        }
+        if (cursoR.codigoCurso != null)
+            curs.codigoCurso = cursoR.codigoCurso;
+        if (cursoR.nombre != null)
+            curs.nombre = cursoR.nombre;
+        if (cursoR.descripcion != null)
+            curs.descripcion = cursoR.descripcion;
+        if (cursoR.creditos != null)
+            curs.creditos = cursoR.creditos;
+        if (cursoR.cupos != null)
+            curs.cupos = cursoR.cupos;
+        return this.mapperToRep(curs);
+    }
+
+    @Transactional
     public void eliminarCurso(Integer id) {
         if (matriculaRepository.count("curso.id", id) > 0) {
             throw new jakarta.ws.rs.WebApplicationException(
