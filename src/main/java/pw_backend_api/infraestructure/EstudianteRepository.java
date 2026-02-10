@@ -7,4 +7,7 @@ import pw_backend_api.domain.Estudiante;
 @ApplicationScoped
 public class EstudianteRepository implements PanacheRepository<Estudiante> {
 
+    public Estudiante findByCedula(Integer cedula) {
+        return find("cedula", cedula).firstResult();
+    }
 }

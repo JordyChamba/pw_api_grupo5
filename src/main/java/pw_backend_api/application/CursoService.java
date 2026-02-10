@@ -49,6 +49,11 @@ public class CursoService {
         return this.mapperToRep(curso);
     }
 
+    public CursoRepresentation buscarPorCodigo(String codigo) {
+        Curso curso = this.cursoRepository.findByCodigo(codigo);
+        return this.mapperToRep(curso);
+    }
+
     @Transactional
     public CursoRepresentation crearCurso(CursoRepresentation cr) {
         Curso curso2 = mapperToCur(cr);

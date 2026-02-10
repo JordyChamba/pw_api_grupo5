@@ -25,6 +25,7 @@ public class Estudiante extends PanacheEntityBase {
     public String carrera;
     public LocalDate fechaNacimiento;
     public String telefono;
+    public Integer cedula;
 
     @JsonbTransient
     @OneToMany(mappedBy = "estudiante")

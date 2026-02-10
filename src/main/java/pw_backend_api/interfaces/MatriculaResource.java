@@ -28,6 +28,13 @@ public class MatriculaResource {
         return matriculaService.listarTodos();
     }
 
+    @GET
+    @Path("/cedula/{cedula}")
+    @RolesAllowed("admin")
+    public List<Matricula> buscarPorCedula(@PathParam("cedula") Integer cedula) {
+        return matriculaService.buscarPorCedula(cedula);
+    }
+
     @POST
     @RolesAllowed("admin")
     @Path("")

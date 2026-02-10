@@ -45,6 +45,13 @@ public class CursoResource {
         return Response.ok(cursoService.buscarPorId(id)).build();
     }
 
+    @GET
+    @Path("/codigo/{codigo}")
+    @RolesAllowed("admin")
+    public Response buscarPorCodigo(@PathParam("codigo") String codigo) {
+        return Response.ok(cursoService.buscarPorCodigo(codigo)).build();
+    }
+
     @POST
     @Path("")
     @RolesAllowed("admin")

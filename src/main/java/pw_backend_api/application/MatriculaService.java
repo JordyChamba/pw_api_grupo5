@@ -32,6 +32,10 @@ public class MatriculaService {
         return matriculaRepository.listAll();
     }
 
+    public List<Matricula> buscarPorCedula(Integer cedula) {
+        return matriculaRepository.findByEstudianteCedula(cedula);
+    }
+
     @Transactional
     public Matricula matricular(MatriculaRepresentation dto) {
         if (dto.estudianteId == null || dto.cursoId == null) {

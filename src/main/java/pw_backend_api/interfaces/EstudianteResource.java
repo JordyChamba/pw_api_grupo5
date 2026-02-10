@@ -44,6 +44,13 @@ public class EstudianteResource {
         return Response.ok(estudianteService.listarPorId(id)).build();
     }
 
+    @GET
+    @Path("/cedula/{cedula}")
+    @RolesAllowed("admin")
+    public Response buscarPorCedula(@PathParam("cedula") Integer cedula) {
+        return Response.ok(estudianteService.buscarPorCedula(cedula)).build();
+    }
+
     @POST
     @Path("")
     @RolesAllowed("admin")

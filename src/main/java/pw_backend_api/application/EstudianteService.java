@@ -5,6 +5,8 @@ import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
 import pw_backend_api.application.representation.EstudianteRepresentation;
 import pw_backend_api.domain.Estudiante;
 import pw_backend_api.infraestructure.EstudianteRepository;
@@ -26,6 +28,7 @@ public class EstudianteService {
         er.carrera = estudiante.carrera;
         er.fechaNacimiento = estudiante.fechaNacimiento;
         er.telefono = estudiante.telefono;
+        er.cedula = estudiante.cedula;
 
         er.links = new java.util.ArrayList<>();
         er.links.add(new EstudianteRepresentation.Link("self", "http://localhost:8081/estudiantes/" + estudiante.id));
@@ -42,6 +45,7 @@ public class EstudianteService {
         estudiante.carrera = er.carrera;
         estudiante.fechaNacimiento = er.fechaNacimiento;
         estudiante.telefono = er.telefono;
+        estudiante.cedula = er.cedula;
 
         return estudiante;
     }
@@ -53,6 +57,15 @@ public class EstudianteService {
     public EstudianteRepresentation listarPorId(Integer id) {
         Estudiante estudiante = this.estudianteRepository.findById(id.longValue());
         return this.mapperToER(estudiante);
+    }
+
+    public EstudianteRepresentation buscarPorCedula(Integer cedula) {
+        Estudiante estudiante = estudianteRepository.findByCedula(cedula);
+        if (estudiante == null) {
+            throw new WebApplicationException("Estudiante no encontrado con cédula: " + cedula,
+                    Response.Status.NOT_FOUND);
+        }
+        return mapperToER(estudiante);
     }
 
     @Transactional
@@ -72,6 +85,7 @@ public class EstudianteService {
         estudiante.carrera = er.carrera;
         estudiante.fechaNacimiento = er.fechaNacimiento;
         estudiante.telefono = er.telefono;
+        estudiante.cedula = er.cedula;
 
         estudianteRepository.persist(estudiante);
 
@@ -91,6 +105,8 @@ public class EstudianteService {
             estudiante.fechaNacimiento = er.fechaNacimiento;
         if (er.telefono != null)
             estudiante.telefono = er.telefono;
+        if (er.cedula != null)
+            estudiante.cedula = er.cedula;
 
         estudianteRepository.persist(estudiante);
 

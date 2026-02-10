@@ -10,6 +10,7 @@ public class EstudianteRepresentation {
     public String carrera;
     public LocalDate fechaNacimiento;
     public String telefono;
+    public Integer cedula;
 
     public List<Link> links;
 
@@ -72,5 +73,13 @@ public class EstudianteRepresentation {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public Integer getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(Integer cedula) {
+        this.cedula = cedula;
     }
 }
