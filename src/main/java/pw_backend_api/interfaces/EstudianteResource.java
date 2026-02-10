@@ -1,5 +1,6 @@
 package pw_backend_api.interfaces;
 
+import io.quarkus.security.Authenticated;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -19,41 +20,38 @@ import pw_backend_api.application.representation.EstudianteRepresentation;
 @Path("/estudiantes")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Authenticated
+
 public class EstudianteResource {
     @Inject
     private EstudianteService estudianteService;
 
     @GET
     @Path("")
-    @RolesAllowed("admin")
     public Response listarTodos() {
         return Response.ok(estudianteService.listarTodos()).build();
     }
 
     @GET
     @Path("/reporte")
-    @RolesAllowed("admin")
     public Response reporte() {
         return Response.ok(estudianteService.listarTodos()).build();
     }
 
     @GET
     @Path("/{id}")
-    @RolesAllowed("admin")
     public Response listarPorId(@PathParam("id") Integer id) {
         return Response.ok(estudianteService.listarPorId(id)).build();
     }
 
     @GET
     @Path("/cedula/{cedula}")
-    @RolesAllowed("admin")
     public Response buscarPorCedula(@PathParam("cedula") Integer cedula) {
         return Response.ok(estudianteService.buscarPorCedula(cedula)).build();
     }
 
     @POST
     @Path("")
-    @RolesAllowed("admin")
     public Response insertarEstudiante(EstudianteRepresentation er) {
         return Response.status(Response.Status.CREATED)
                 .entity(estudianteService.insertarEstudiante(er))
@@ -62,7 +60,6 @@ public class EstudianteResource {
 
     @PUT
     @Path("/{id}")
-    @RolesAllowed("admin")
     public Response actualizarEstudiante(@PathParam("id") Integer id,
             EstudianteRepresentation er) {
         return Response.ok(estudianteService.actualizarEstudiante(id, er)).build();
@@ -70,7 +67,6 @@ public class EstudianteResource {
 
     @PATCH
     @Path("/{id}")
-    @RolesAllowed("admin")
     public Response parche(@PathParam("id") Integer id,
             EstudianteRepresentation er) {
         return Response.ok(estudianteService.parche(id, er)).build();
@@ -78,7 +74,6 @@ public class EstudianteResource {
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("admin")
     public Response eliminarEstudiante(@PathParam("id") Integer id) {
         estudianteService.eliminarEstudiante(id);
         return Response.noContent().build();

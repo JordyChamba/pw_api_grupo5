@@ -1,5 +1,6 @@
 package pw_backend_api.interfaces;
 
+import io.quarkus.security.Authenticated;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -19,6 +20,8 @@ import pw_backend_api.application.representation.CursoRepresentation;
 @Path("/cursos")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Authenticated
+
 public class CursoResource {
 
     @Inject
@@ -26,35 +29,30 @@ public class CursoResource {
 
     @GET
     @Path("")
-    @RolesAllowed("admin")
     public Response mostrarCursos() {
         return Response.ok(cursoService.listarTodos()).build();
     }
 
     @GET
     @Path("/reporte")
-    @RolesAllowed("admin")
     public Response reporte() {
         return Response.ok(cursoService.listarTodos()).build();
     }
 
     @GET
     @Path("/{id}")
-    @RolesAllowed("admin")
     public Response buscarPorId(@PathParam("id") Integer id) {
         return Response.ok(cursoService.buscarPorId(id)).build();
     }
 
     @GET
     @Path("/codigo/{codigo}")
-    @RolesAllowed("admin")
     public Response buscarPorCodigo(@PathParam("codigo") String codigo) {
         return Response.ok(cursoService.buscarPorCodigo(codigo)).build();
     }
 
     @POST
     @Path("")
-    @RolesAllowed("admin")
     public Response guardarCurso(CursoRepresentation cursoRe) {
         CursoRepresentation creado = cursoService.crearCurso(cursoRe);
 
@@ -65,7 +63,6 @@ public class CursoResource {
 
     @PUT
     @Path("/{id}")
-    @RolesAllowed("admin")
     public Response actualizarCurso(@PathParam("id") Integer id,
             CursoRepresentation cursoRe) {
 
@@ -74,7 +71,6 @@ public class CursoResource {
 
     @PATCH
     @Path("/{id}")
-    @RolesAllowed("admin")
     public Response parcheCurso(@PathParam("id") Integer id,
             CursoRepresentation cursoRe) {
         return Response.ok(cursoService.parcheCurso(id, cursoRe)).build();
@@ -82,7 +78,6 @@ public class CursoResource {
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("admin")
     public Response borrarCurso(@PathParam("id") Integer id) {
         cursoService.eliminarCurso(id);
         return Response.noContent().build();
